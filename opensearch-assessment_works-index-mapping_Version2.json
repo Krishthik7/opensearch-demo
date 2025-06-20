@@ -1,0 +1,44 @@
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "product_synonyms": {
+          "type": "synonym",
+          "synonyms": [
+            "sticker,sticker pack",
+            "t-shirt,tee,classic t-shirt",
+            "coaster,coasters",
+            "clock,timepiece",
+            "hoodie,pullover,sweatshirt,Pullover Hoodie"
+          ]
+        }
+      },
+      "analyzer": {
+        "product_name_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "product_synonyms"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "work_id": { "type": "long" },
+      "title": { "type": "text", "analyzer": "standard" },
+      "tags": { "type": "text", "analyzer": "standard" },
+      "products": {
+        "type": "nested",
+        "properties": {
+          "product_id": { "type": "keyword" },
+          "name": { "type": "text", "analyzer": "product_name_analyzer" },
+          "stage": { "type": "keyword" },
+          "enabled": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

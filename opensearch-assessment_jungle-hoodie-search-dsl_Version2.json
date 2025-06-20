@@ -1,0 +1,52 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {
+                "nested": {
+                  "path": "products",
+                  "query": {
+                    "bool": {
+                      "must": [
+                        { "term": { "products.enabled": true } },
+                        { "match": { "products.name": { "query": "jungle" } } }
+                      ]
+                    }
+                  }
+                }
+              },
+              { "match": { "title": { "query": "jungle" } } },
+              { "match": { "tags": { "query": "jungle" } } }
+            ],
+            "minimum_should_match": 1
+          }
+        },
+        {
+          "bool": {
+            "should": [
+              {
+                "nested": {
+                  "path": "products",
+                  "query": {
+                    "bool": {
+                      "must": [
+                        { "term": { "products.enabled": true } },
+                        { "match": { "products.name": { "query": "hoodie" } } }
+                      ]
+                    }
+                  }
+                }
+              },
+              { "match": { "title": { "query": "hoodie" } } },
+              { "match": { "tags": { "query": "hoodie" } } }
+            ],
+            "minimum_should_match": 1
+          }
+        }
+      ]
+    }
+  }
+}
